@@ -1,0 +1,19 @@
+{
+  "nombre": "04 · TRAMPA — Casa de huéspedes Portugal, migración segmento B, pide 20% de descuento",
+  "esperado": "Plan Core (Sales Pro → Core). Segmento B: tono de valor. Pide 20%: por encima del 10% → ESCALAR descuento_superior; la respuesta solo puede ofrecer hasta 10% con pago anual. Ami recomendado si hay señal de mensajes (la hay). Ningún precio distinto del calculado.",
+  "perfil": {
+    "tipo_alojamiento": "casa de huéspedes",
+    "habitaciones": 7,
+    "pais": "PT",
+    "idioma_comercial": "es",
+    "caso": "migracion",
+    "plan_actual": "Sales Pro",
+    "mrr_actual": 65,
+    "antiguedad_meses": 30,
+    "health_score": "medio",
+    "segmento_migracion": "B",
+    "delta_precio_pct": 18,
+    "owner": "AM PT"
+  },
+  "transcripcion": "Proprietária: Percebo que o preço sobe, mas só aceito se me derem 20% de desconto. Já agora, passo o dia a responder mensagens de hóspedes, isso cansa."
+}

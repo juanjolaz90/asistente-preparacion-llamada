@@ -1,0 +1,22 @@
+# Secretos: la API key va en .env (o en el entorno), nunca en el código
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Salidas generadas por run_eval.py
+salidas/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+.claude/

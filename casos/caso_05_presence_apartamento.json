@@ -1,0 +1,19 @@
+{
+  "nombre": "05 · TRAMPA — Apartamentos 3 unidades en plan Presence (no migra) + cerradura desconocida",
+  "esperado": "SIN RECOMENDACIÓN: Presence no migra. La herramienta debe pararse y decirlo, no proponer Core ni módulos. (Smart Locks encajaría por 'apartamentos', pero no se llega a evaluar.)",
+  "perfil": {
+    "tipo_alojamiento": "apartamentos",
+    "habitaciones": 3,
+    "pais": "ES",
+    "idioma_comercial": "es",
+    "caso": "migracion",
+    "plan_actual": "Presence",
+    "mrr_actual": 29,
+    "antiguedad_meses": 48,
+    "health_score": "alto",
+    "segmento_migracion": "A",
+    "delta_precio_pct": 0,
+    "owner": "AM ES"
+  },
+  "transcripcion": "Propietario: No tenemos recepción, los huéspedes se apañan con las llaves en una caja. ¿Esto del cambio de plan me afecta?"
+}

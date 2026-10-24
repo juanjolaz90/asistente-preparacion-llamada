@@ -1,0 +1,17 @@
+{
+  "nombre": "02 · Fragmento 2 — Hotel Valencia 24 hab., nuevo negocio",
+  "esperado": "Plan Advanced (Revenue Manager exige Advanced y hay señal de precios manuales/estacionalidad; 24 hab. ≥ 8). Website Builder incluido en Advanced. Recomendar POS (España, bar en azotea, caja aparte) y Revenue Manager. Guest Upsell elegible con señal débil (desayuno) — aceptable como recomendado o como 'sin señal'. Sin escalado.",
+  "perfil": {
+    "tipo_alojamiento": "hotel",
+    "habitaciones": 24,
+    "pais": "ES",
+    "idioma_comercial": "es",
+    "caso": "nuevo_negocio",
+    "plan_actual": null,
+    "competidor_pms": "competidor X",
+    "cuota_ota_pct": 70,
+    "lifecycle_stage": "SQL",
+    "owner": "AE ES"
+  },
+  "transcripcion": "AE: …¿y cómo suelen reservar los huéspedes?\nDirector: Sobre todo por Booking y Expedia. Las comisiones nos matan en verano. Tenemos web, pero es solo una página con un número de teléfono.\nAE: ¿Y aparte de las habitaciones, tenéis otros ingresos?\nDirector: Tenemos un bar en la azotea y desayuno. Ahora mismo el bar va con una caja aparte y lo cuadramos todo a mano en el check-out. Y además cambiamos los precios… bueno, cuando me acuerdo. En agosto ya estábamos llenos en junio, a precios demasiado bajos."
+}

@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "version": "2026-10-24",
+    "propietario": "Product GTM (actualiza en cada lanzamiento) · revisa RevOps",
+    "nota": "Única fuente de verdad del prototipo. Cifras de la ficha del caso. Nada que no esté aquí puede aparecer en una recomendación."
+  },
+  "mercados": ["ES", "FR", "IT", "PT"],
+  "planes": {
+    "Core": {
+      "id_regla": "PLAN-CORE",
+      "incluye": ["PMS", "motor de reservas", "channel manager", "pagos", "mensajería básica con huéspedes"],
+      "precio_base": 79,
+      "habitaciones_incluidas": 10,
+      "precio_hab_extra": 4
+    },
+    "Advanced": {
+      "id_regla": "PLAN-ADV",
+      "incluye": ["todo Core", "Website Builder", "Revenue Insights", "soporte prioritario"],
+      "precio_base": 129,
+      "habitaciones_incluidas": 10,
+      "precio_hab_extra": 6,
+      "modulos_incluidos": ["website_builder"]
+    }
+  },
+  "migracion_legacy": {
+    "id_regla": "MIG-MAP",
+    "Presence": {"destino": null, "nota": "Presence no migra. Sin recomendación de migración."},
+    "Sales Pro": {"destino": "Core", "modulos": []},
+    "Ultimate": {"destino": "Core", "modulos": ["website_builder"]},
+    "nota": "Advanced es upsell posterior a la migración, nunca destino por defecto."
+  },
+  "modulos": {
+    "website_builder": {
+      "nombre": "Website Builder",
+      "id_regla": "MOD-WB",
+      "que_hace": "Web de reserva directa integrada con el motor de reservas",
+      "precio": "29 €/mes",
+      "precio_num": 29,
+      "planes_permitidos": ["Core", "Advanced"],
+      "paises": ["ES", "FR", "IT", "PT"],
+      "min_habitaciones": 0,
+      "incluido_en": ["Advanced"],
+      "senales_encaje": ["alta_cuota_ota", "sin_web", "web_anticuada"],
+      "senales_contra": ["tiene_web_propia"]
+    },
+    "ami": {
+      "nombre": "Ami",
+      "id_regla": "MOD-AMI",
+      "que_hace": "Asistente de IA de mensajería con huéspedes: redacta y envía respuestas en todos los canales",
+      "precio": "desde 69 €/mes",
+      "precio_num": 69,
+      "planes_permitidos": ["Core", "Advanced"],
+      "paises": ["ES", "FR", "IT", "PT"],
+      "min_habitaciones": 0,
+      "early_access": {"cupo_total": 150, "plazas_restantes": 23},
+      "senales_encaje": ["alto_volumen_mensajes", "gestion_propietario", "huespedes_multilingues"]
+    },
+    "pos": {
+      "nombre": "POS",
+      "id_regla": "MOD-POS",
+      "que_hace": "Punto de venta para restaurante, bar o tienda; cargos a la cuenta de la habitación",
+      "precio": "39 €/mes por terminal",
+      "precio_num": 39,
+      "planes_permitidos": ["Core", "Advanced"],
+      "paises": ["ES"],
+      "min_habitaciones": 0,
+      "senales_encaje": ["tiene_fnb", "tiene_tienda", "caja_aparte"]
+    },
+    "revenue_manager": {
+      "nombre": "Revenue Manager",
+      "id_regla": "MOD-RM",
+      "que_hace": "Recomendaciones de precios dinámicos basadas en reglas",
+      "precio": "49 €/mes",
+      "precio_num": 49,
+      "planes_permitidos": ["Advanced"],
+      "paises": ["ES", "FR", "IT", "PT"],
+      "min_habitaciones": 8,
+      "senales_encaje": ["demanda_estacional", "precios_manuales"]
+    },
+    "guest_upsell": {
+      "nombre": "Guest Upsell",
+      "id_regla": "MOD-GU",
+      "que_hace": "Ofertas previas a la llegada (early check-in, desayuno, traslados)",
+      "precio": "3% de los ingresos por upsell",
+      "precio_num": null,
+      "planes_permitidos": ["Core", "Advanced"],
+      "paises": ["ES", "FR", "IT", "PT"],
+      "min_habitaciones": 0,
+      "senales_encaje": ["tiene_extras", "huespedes_ocio", "tiene_fnb"]
+    },
+    "smart_locks": {
+      "nombre": "Smart Locks",
+      "id_regla": "MOD-SL",
+      "que_hace": "Check-in sin llave mediante integraciones con cerraduras de partners",
+      "precio": "5 €/unidad/mes",
+      "precio_num": 5,
+      "planes_permitidos": ["Core", "Advanced"],
+      "paises": ["ES", "FR", "IT", "PT"],
+      "min_habitaciones": 0,
+      "requiere_cerradura_compatible": true,
+      "cerraduras_compatibles": ["Nuki", "Salto KS", "TTLock"],
+      "senales_encaje": ["self_checkin", "sin_recepcion", "apartamentos"]
+    }
+  },
+  "descuentos": {
+    "id_regla": "DESC-10",
+    "max_sin_aprobacion_pct": 10,
+    "condicion": "pago anual anticipado",
+    "aprobador_excepciones": "Responsable de CS"
+  },
+  "segmentos_migracion": {
+    "A": {"id_regla": "SEG-A", "nombre": "Sin fricción", "enfoque": "Email; comercial disponible si lo pide", "tono": "breve, agradecido, informativo"},
+    "B": {"id_regla": "SEG-B", "nombre": "Caso de valor", "enfoque": "Llamada proactiva; empezar por el nuevo valor (módulos que gana)", "tono": "consultivo, centrado en lo que gana"},
+    "C": {"id_regla": "SEG-C", "nombre": "En riesgo", "enfoque": "Llamada de AM senior; excepciones solo con aprobación", "tono": "escucha primero, no prometer nada sobre precio"}
+  },
+  "escalado": {
+    "id_regla": "ESC",
+    "motivos": {
+      "descuento_superior": "Petición de descuento por encima del 10% o sin pago anual",
+      "excepcion_precio": "Pide mantener el precio antiguo u otra excepción de migración",
+      "riesgo_churn": "Menciona cancelar, irse a la competencia o a herramientas de una OTA",
+      "segmento_c": "Segmento C: la conversación la lleva un AM senior",
+      "modulo_no_disponible": "El módulo que mejor encaja no está disponible para esta cuenta",
+      "sin_plazas": "El módulo está en early access y no quedan plazas"
+    }
+  }
+}

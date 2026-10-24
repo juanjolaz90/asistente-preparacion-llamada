@@ -1,0 +1,20 @@
+{
+  "nombre": "01 · Fragmento 1 — B&B Toscana, migración segmento C (+38%)",
+  "esperado": "Plan Core (Ultimate → Core + WB). WB no apoyar porque ya tiene web. Recomendar Ami (alto volumen de mensajes, multilingüe, early access con plazas). ESCALAR: segmento C + pide precio antiguo + menciona herramientas de Booking. No prometer nada sobre precio.",
+  "perfil": {
+    "tipo_alojamiento": "B&B",
+    "habitaciones": 9,
+    "pais": "IT",
+    "idioma_comercial": "es",
+    "caso": "migracion",
+    "plan_actual": "Ultimate",
+    "mrr_actual": 72,
+    "modulos_activos": [],
+    "antiguedad_meses": 5,
+    "health_score": "medio",
+    "segmento_migracion": "C",
+    "delta_precio_pct": 38,
+    "owner": "AM senior IT"
+  },
+  "transcripcion": "AM: …así que a partir del mes que viene tu plan pasa a la nueva estructura, que además incluye el website builder.\nPropietario: Ya tengo una web, me la hizo mi sobrino. Sinceramente, no entiendo por qué tendría que pagar más por cosas que no uso. Lo que necesito es ayuda con los huéspedes: me paso dos horas al día en WhatsApp respondiendo las mismas preguntas, en inglés, alemán, neerlandés…\nAM: Lo entiendo. Déjame ver qué puedo—\nPropietario: ¿No me puedes dejar con el precio antiguo? Si no, voy a mirar qué ofrecen las herramientas de Booking."
+}

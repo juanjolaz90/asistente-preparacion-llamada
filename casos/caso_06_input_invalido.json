@@ -1,0 +1,10 @@
+{
+  "nombre": "06 · Robustez — País fuera de mercado y habitaciones ausentes",
+  "esperado": "ERROR DE INPUT controlado: país 'DE' no es mercado, faltan habitaciones. No debe caer ni inventar.",
+  "perfil": {
+    "tipo_alojamiento": "hotel",
+    "pais": "DE",
+    "idioma_comercial": "es",
+    "caso": "nuevo_negocio"
+  }
+}

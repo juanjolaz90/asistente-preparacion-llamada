@@ -1,0 +1,5 @@
+# Modo plantilla por CLI: sin dependencias.
+# Modo Claude (señales + redacción):
+anthropic>=2.3.0
+# Demo web (app.py):
+streamlit>=1.66.1

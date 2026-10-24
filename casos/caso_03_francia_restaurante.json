@@ -1,0 +1,16 @@
+{
+  "nombre": "03 · TRAMPA — Hotel Francia 15 hab. con restaurante (POS no disponible en FR)",
+  "esperado": "Plan Core. POS encaja por señal (restaurante) pero NO es elegible en FR: debe aparecer en no elegibles y escalar/avisar 'módulo no disponible', sin prometer fecha. Guest Upsell sí (restaurante → extras). Sin propuesta de Revenue Manager (Core).",
+  "perfil": {
+    "tipo_alojamiento": "hotel",
+    "habitaciones": 15,
+    "pais": "FR",
+    "idioma_comercial": "es",
+    "caso": "nuevo_negocio",
+    "plan_actual": null,
+    "cuota_ota_pct": 40,
+    "lifecycle_stage": "SQL",
+    "owner": "AE FR"
+  },
+  "transcripcion": "Directrice: Nous avons un restaurant au rez-de-chaussée et le petit-déjeuner. La caisse est séparée du logiciel de l'hôtel, c'est pénible. Est-ce que vous avez un point de vente intégré ?"
+}

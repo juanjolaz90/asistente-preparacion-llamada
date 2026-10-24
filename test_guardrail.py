@@ -4,7 +4,7 @@ Prueba del guardrail sin IA ni dependencias: python test_guardrail.py
 
 - La redacción "mala" (POS en FR, 39 €, 15 % de descuento, Core a 89 €…) tiene que BLOQUEARSE.
 - La redacción del caso 04 que antes daba falso positivo (cita el precio legacy de 65 €,
-  la subida del 18 % y el 20 % que pide la clienta) tiene que PASAR.
+  la subida del 22 % y el 20 % que pide la clienta) tiene que PASAR.
 """
 
 import json
@@ -53,20 +53,22 @@ PRUEBAS = [
      _salida("Te dejo Core a 65 €/mes."), True),
     ("caso_04_descuento_20.json", "Ofrece el 20 % que pide",
      _salida("Como me pides, te doy un 20% de descuento."), True),
-    ("caso_04_descuento_20.json", "Ofrece el 18 % (= subida) como descuento",
-     _salida("Te aplico un 18% de descuento para compensar."), True),
+    ("caso_04_descuento_20.json", "Ofrece el 22 % (= subida) como descuento",
+     _salida("Te aplico un 22% de descuento para compensar."), True),
     ("caso_01_italia_bb.json", "Sin escalado reflejado",
      {**_salida("Tu plan pasa a Core a 79 €/mes."), "escalar_a_persona": []}, True),
 
     # --- falsos positivos ya corregidos: deben pasar
     ("caso_03_francia_restaurante.json", "Caso 03: 'posible' no es 'POS'",
      _salida("Paso tu caso al equipo para que te diga qué es posible de verdad [MOD-POS], y mientras vemos el plan Core [PLAN-CORE]."), False),
+    ("caso_04_descuento_20.json", "Caso 04: 'acepta… solo si le dan un 20%'",
+     _salida("Cliente de Sales Pro que acepta la subida de precio solo si le dan un 20% de descuento [descuento_superior]."), False),
     ("caso_04_descuento_20.json", "Caso 04: legacy, subida y % pedido",
      _salida(
          pitch="Tu plan pasaría a Core, a 79 €/mes hasta 10 habitaciones [PLAN-CORE]. Ami tiene un precio desde 69 €/mes [MOD-AMI].",
-         resumen="Cliente desde hace 30 meses (Sales Pro, 65 €/mes) y en migración a Core con una subida del 18% [segmento]. Acepta el cambio solo con un 20% de descuento.",
+         resumen="Cliente desde hace 30 meses (Sales Pro, 65 €/mes) y en migración a Core con una subida del 22% [segmento]. Acepta el cambio solo con un 20% de descuento.",
          objecion="Solo acepto si me dais un 20% de descuento.",
-         respuesta="Reconoce la subida del 18% sin discutirla [segmento]. Tu margen es de hasta un 10% por pago anual anticipado [DESC-10].",
+         respuesta="Reconoce la subida del 22% sin discutirla [segmento]. Tu margen es de hasta un 10% por pago anual anticipado [DESC-10].",
      ), False),
 ]
 

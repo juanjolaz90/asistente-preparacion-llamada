@@ -114,7 +114,7 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
             antes = texto_comercial[max(0, mt.start() - 30): mt.start()].lower()
             if delta_subida is not None and pct == int(delta_subida) and re.search(_RE_SUBIDA, antes):
                 continue  # es el % de subida de precio, no un descuento
-            cerca = texto_comercial[max(0, mt.start() - 40): mt.end() + 20].lower()
+            cerca = texto_comercial[max(0, mt.start() - 60): mt.end() + 20].lower()
             if pct in pct_pedidos and re.search(_RE_PETICION, cerca) and not re.search(_RE_OFERTA, cerca):
                 continue  # cita lo que pide el cliente, no lo ofrece
             violaciones.append(f"Ofrece un {pct}% de descuento sin aprobación.")

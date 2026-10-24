@@ -7,6 +7,9 @@
 # Enunciado de la prueba: material de Amenitiz, no se publica
 brief_*.pdf
 
+# Notas internas de trabajo (instrucciones para el asistente de código)
+CLAUDE.md
+
 # Salidas generadas por run_eval.py
 salidas/
 

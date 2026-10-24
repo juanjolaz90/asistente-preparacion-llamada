@@ -4,6 +4,8 @@ Porción funcional de la interacción principal: **perfil de hotel (+ fragmento 
 
 No es producción. Es un prototipo acotado, correcto en lo que cubre y honesto en lo que no.
 
+El enunciado original de la prueba no se incluye en el repo porque es material de Amenitiz. Las cifras de la ficha están en `catalogo.json`, y los dos fragmentos de llamada del brief, en `casos/`.
+
 ## Requisitos
 
 - Python 3.10+

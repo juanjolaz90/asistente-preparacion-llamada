@@ -4,6 +4,9 @@
 !.env.example
 .streamlit/secrets.toml
 
+# Enunciado de la prueba: material de Amenitiz, no se publica
+brief_*.pdf
+
 # Salidas generadas por run_eval.py
 salidas/
 

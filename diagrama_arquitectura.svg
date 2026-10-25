@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1041" width="2920" height="1520" font-family="Segoe UI, Arial, sans-serif" fill="#1F2937">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4B5563"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#F0A830"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E9E6A"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker>
+  </defs>
+  <rect width="2000" height="1041" fill="#FFFFFF"/>
+
+  <text x="55" y="60" font-size="22" font-weight="700">Asistente de preparación de llamada — arquitectura del MVP</text>
+  <text x="55" y="92" font-size="16.5" fill="#374151">Todo lo que es un dato (precio, elegibilidad, descuento, segmento) sale de reglas. La IA extrae señales de una lista cerrada y redacta. Un guardrail revisa antes de mostrar.</text>
+
+  <g font-size="16" font-weight="700" fill="#6B7280" letter-spacing="2">
+    <text x="55" y="160">1 · ENTRADAS</text>
+    <text x="643" y="160">2 · LÓGICA</text>
+    <text x="1415" y="160">3 · SALIDA</text>
+  </g>
+  <g stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6 6">
+    <line x1="603" y1="135" x2="603" y2="785"/><line x1="1383" y1="135" x2="1383" y2="785"/>
+  </g>
+
+  <!-- ENTRADAS -->
+  <rect x="55" y="190" width="492" height="152" rx="10" fill="#EEF0FB" stroke="#5B6BD6" stroke-width="2"/>
+  <text x="78" y="226" font-size="19.5" font-weight="700">HubSpot · ficha de la cuenta</text>
+  <g font-size="16">
+    <text x="78" y="260">Tipo, habitaciones, país, plan actual, MRR, antigüedad,</text>
+    <text x="78" y="284">health score, segmento y delta de migración, módulos activos,</text>
+    <text x="78" y="308">resumen de IA ya existente.</text>
+    <text x="78" y="332" font-style="italic" fill="#6B7280">ya existe · se reutiliza</text>
+  </g>
+
+  <rect x="55" y="372" width="492" height="152" rx="10" fill="#EEF0FB" stroke="#5B6BD6" stroke-width="2"/>
+  <text x="78" y="408" font-size="19.5" font-weight="700">Transcripciones (call intelligence)</text>
+  <g font-size="16">
+    <text x="78" y="442">Última(s) llamada(s), ES/FR/IT/PT.</text>
+    <text x="78" y="466">Antes de usarse: anonimización (nombres, teléfono,</text>
+    <text x="78" y="490">email, datos de pago) y recorte a lo relevante.</text>
+    <text x="78" y="514" font-style="italic" fill="#6B7280">ya existe · se añade el filtro RGPD</text>
+  </g>
+
+  <rect x="55" y="553" width="492" height="178" rx="10" fill="#FFF7EB" stroke="#F0A830" stroke-width="2"/>
+  <text x="78" y="589" font-size="19.5" font-weight="700">Catálogo · única fuente de verdad</text>
+  <g font-size="16">
+    <text x="78" y="623">Planes, módulos, precios, elegibilidad por país / plan /</text>
+    <text x="78" y="647">habitaciones, early access, segmentos, descuentos.</text>
+    <text x="78" y="671">Dueño: Product GTM. Cambios con fecha y autor.</text>
+    <text x="78" y="695">Revisa RevOps antes de publicar.</text>
+    <text x="78" y="719" font-style="italic" fill="#6B7280">nuevo · tabla (Sheet / n8n Data Table)</text>
+  </g>
+
+  <!-- LÓGICA -->
+  <rect x="643" y="190" width="342" height="152" rx="10" fill="#EAEDF7" stroke="#2B3F8C" stroke-width="2"/>
+  <text x="666" y="226" font-size="19.5" font-weight="700">Señales · Claude, lista cerrada</text>
+  <g font-size="16">
+    <text x="666" y="260">Perfil + transcripción → solo etiquetas</text>
+    <text x="666" y="284">de la lista, cada una con cita literal</text>
+    <text x="666" y="308">validada en código. No decide nada.</text>
+    <text x="666" y="332" font-style="italic" fill="#6B7280">sin API o si falla: palabras clave</text>
+  </g>
+
+  <rect x="643" y="372" width="342" height="208" rx="10" fill="#0F3D2E"/>
+  <text x="666" y="408" font-size="19.5" font-weight="700" fill="#FFFFFF">Motor de reglas · sin IA</text>
+  <g font-size="16" fill="#FFFFFF">
+    <text x="666" y="446">Plan destino y precio calculado</text>
+    <text x="666" y="471">Módulos: recomendados / elegibles</text>
+    <text x="666" y="496">sin señal / no elegibles (con motivo)</text>
+    <text x="666" y="521">Motivos de escalado</text>
+    <text x="666" y="546">Regla que justifica cada afirmación</text>
+  </g>
+
+  <rect x="1042" y="372" width="315" height="208" rx="10" fill="#1E3A8A"/>
+  <text x="1065" y="408" font-size="19.5" font-weight="700" fill="#FFFFFF">Redactor · Claude</text>
+  <g font-size="16" fill="#FFFFFF">
+    <text x="1065" y="446">Recibe SOLO lo que pasó las reglas.</text>
+    <text x="1065" y="471">Escribe: resumen, pitch (6–8 frases),</text>
+    <text x="1065" y="496">1–2 objeciones, "no decir".</text>
+    <text x="1065" y="521">Idioma del comercial.</text>
+    <text x="1065" y="546">Fallback: plantilla sin IA.</text>
+  </g>
+
+  <rect x="643" y="620" width="714" height="112" rx="10" fill="#FDF2F2" stroke="#C0392B" stroke-width="2"/>
+  <text x="666" y="656" font-size="19.5" font-weight="700">Guardrail de salida · sin IA</text>
+  <g font-size="16">
+    <text x="666" y="690">Bloquea si el texto menciona un módulo no permitido, un importe que no está en el catálogo,</text>
+    <text x="666" y="714">un descuento &gt; 10 % o si omite un escalado. Si bloquea → plantilla + aviso a RevOps.</text>
+  </g>
+
+  <!-- SALIDA -->
+  <rect x="1425" y="190" width="520" height="232" rx="10" fill="#ECFDF3" stroke="#2E9E6A" stroke-width="2"/>
+  <text x="1448" y="226" font-size="19.5" font-weight="700">Card en HubSpot · antes de la llamada</text>
+  <g font-size="16">
+    <text x="1448" y="262">· Resumen del cliente en 2 frases</text>
+    <text x="1448" y="289">· Plan + precio calculado</text>
+    <text x="1448" y="316">· Módulos que encajan y por qué</text>
+    <text x="1448" y="343">· Pitch y 1–2 objeciones</text>
+    <text x="1448" y="370">· Qué NO prometer · regla de cada punto</text>
+    <text x="1448" y="404" font-style="italic" fill="#6B7280">pulgar arriba / abajo + comentario → feedback semanal</text>
+  </g>
+
+  <rect x="1425" y="468" width="520" height="172" rx="10" fill="#FDF2F2" stroke="#C0392B" stroke-width="2"/>
+  <text x="1448" y="504" font-size="19.5" font-weight="700">ESCALAR A PERSONA</text>
+  <g font-size="16">
+    <text x="1448" y="538">Descuento &gt; 10 % · precio antiguo u otra</text>
+    <text x="1448" y="562">excepción · menciona irse / cancelar · segmento C</text>
+    <text x="1448" y="586">· módulo que encaja pero no disponible.</text>
+    <text x="1448" y="612" font-style="italic" fill="#6B7280">llega directo desde las reglas, sin pasar por la IA.</text>
+    <text x="1448" y="634" font-style="italic" fill="#6B7280">decide el responsable de CS. La herramienta no negocia.</text>
+  </g>
+
+  <rect x="1425" y="672" width="520" height="98" rx="10" fill="#F1F2F4" stroke="#9AA0A8" stroke-width="2"/>
+  <text x="1448" y="708" font-size="19.5" font-weight="700">Registro · nota en la timeline</text>
+  <g font-size="16">
+    <text x="1448" y="738">Recomendación + versión del catálogo + feedback.</text>
+    <text x="1448" y="762" font-style="italic" fill="#6B7280">para Looker: uso, calidad, retención, MRR</text>
+  </g>
+
+  <!-- flechas -->
+  <g fill="none" stroke="#4B5563" stroke-width="2.5">
+    <path d="M547,266 L636,266" marker-end="url(#a)"/>
+    <path d="M547,280 C600,280 600,420 636,420" marker-end="url(#a)"/>
+    <path d="M547,430 C600,430 600,266 636,266"/>
+    <path d="M547,448 L636,448" marker-end="url(#a)"/>
+    <path d="M814,342 L814,366" marker-end="url(#a)"/>
+    <path d="M985,476 L1036,476" marker-end="url(#a)"/>
+    <path d="M1200,580 L1200,614" marker-end="url(#a)"/>
+    <path d="M1357,710 L1419,710" marker-end="url(#a)"/>
+  </g>
+  <path d="M547,640 C600,640 600,545 636,545" fill="none" stroke="#F0A830" stroke-width="2.5" marker-end="url(#ao)"/>
+  <path d="M1357,676 C1400,676 1395,306 1419,306" fill="none" stroke="#2E9E6A" stroke-width="2.5" marker-end="url(#ag)"/>
+  <path d="M985,560 C1010,560 1005,600 1030,600 L1395,600 C1410,600 1405,548 1419,548" fill="none" stroke="#C0392B" stroke-width="2.5" marker-end="url(#ar)"/>
+  <g font-size="15" font-style="italic" fill="#4B5563">
+    <text x="826" y="362">señales</text>
+    <text x="990" y="358">lista permitida ↓</text>
+    <text x="1210" y="605">texto</text>
+  </g>
+
+  <!-- pie -->
+  <rect x="55" y="798" width="1890" height="100" rx="10" fill="#F4F6F9" stroke="#D5DAE1" stroke-width="2"/>
+  <text x="78" y="832" font-size="19.5" font-weight="700">Orquestación: n8n</text>
+  <g font-size="16">
+    <text x="78" y="860">Trigger (deal stage / botón en la card) → lee HubSpot → anonimiza → señales (Claude) → reglas → redactor (Claude, UE, DPA firmado, sin entrenamiento) → guardrail → escribe en HubSpot.</text>
+    <text x="78" y="884">Latencia objetivo &lt; 30 s · coste &lt; 0,05 € por recomendación (dos llamadas cortas a Claude).</text>
+  </g>
+
+  <rect x="55" y="918" width="1890" height="94" rx="10" fill="#FFF9E8" stroke="#E6B23A" stroke-width="2"/>
+  <text x="78" y="952" font-size="19.5" font-weight="700">Lo que cambia cuando Producto lanza algo</text>
+  <g font-size="16">
+    <text x="78" y="980">Solo el catálogo. Product GTM añade el módulo con precio, países, plan mínimo y señales de encaje. Sin fila en el catálogo, el módulo no existe para la herramienta.</text>
+    <text x="78" y="1004">Ni el prompt ni las reglas cambian. Un caso de prueba nuevo por módulo antes de publicar.</text>
+  </g>
+</svg>

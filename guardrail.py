@@ -22,7 +22,9 @@ Excepciones acotadas (para no bloquear al citar datos del propio cliente):
 
 import re
 
-_RE_LEGACY = r"actual|ahora pag|hoy pag|pagas hoy|pagabas|antes|antiguo|legacy|anterior"
+_RE_LEGACY = r"actual|ahora pag|hoy pag|pagas hoy|pagabas|antes|antiguo|legacy|anterior|pasa\w* de|sub\w+ de|cambia\w* de"
+# El precio legacy se bloquea solo si se ofrece como precio nuevo: verbo de oferta o nombre del plan nuevo pegado a la cifra
+_RE_OFERTA_PRECIO = r"te (lo |la )?(dejo|hago|aplico|mantengo|dejamos|hacemos)|puedo dejarte|se queda en|queda en|quedas en|quedar(te|se) en|por s[oó]lo|\b(core|advanced) (a|por|en)\b"
 _RE_SUBIDA = r"sub(e|ida)|aument|increment|hausse|rincar|encarec"
 _RE_PETICION = r"\bpid(e|es|en|i[oó])\b|\bpedido\b|solicit|\bexig|\bacept|\bquiere|reclam|condici[oó]n"
 _RE_OFERTA = r"te (lo |la )?(doy|hago|aplico|dejo|damos|hacemos|aplicamos|dejamos)|te puedo (dar|hacer|aplicar|dejar)|puedo (dar|hacer|aplicar|dejar)te|ofrezco|ofrecemos|aprobad[oa]"
@@ -45,10 +47,17 @@ def _precios_permitidos(resultado: dict, cat: dict) -> set[int]:
     if pp:
         plan = cat["planes"][pp["plan"]]
         permitidos |= {plan["precio_base"], plan["precio_hab_extra"], pp["total_mes"]}
+    modulos_num = []
     for m in resultado.get("modulos_recomendados", []):
         pn = cat["modulos"][m["id"]].get("precio_num")
         if pn:
             permitidos.add(pn)
+            modulos_num.append(pn)
+    # Sumas legítimas: plan + un módulo recomendado, y plan + todos ("Core con Ami son 148 €")
+    if pp and modulos_num:
+        for pn in modulos_num:
+            permitidos.add(pp["total_mes"] + pn)
+        permitidos.add(pp["total_mes"] + sum(modulos_num))
     permitidos.add(cat["descuentos"]["max_sin_aprobacion_pct"])  # el 10% puede mencionarse
     return permitidos
 
@@ -81,9 +90,10 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
         if nombre in permitidos:
             continue
         # Permitimos mencionarlo solo si va acompañado de una negación cercana ("no está disponible", "no incluye", "no puedo")
-        # Palabra completa ("POS" no casa con "posible") y fuera de etiquetas como [MOD-POS]
-        for mt in re.finditer(r"(?<![\w-])" + re.escape(nombre) + r"(?!\w)", texto_pitch.lower()):
-            ventana = texto_pitch.lower()[max(0, mt.start() - 80): mt.end() + 80]
+        # Palabra completa ("POS" no casa con "posible") y fuera de etiquetas como [MOD-POS].
+        # Se revisa lo que dice el comercial, no la objeción: el cliente puede preguntar por cualquier módulo.
+        for mt in re.finditer(r"(?<![\w-])" + re.escape(nombre) + r"(?!\w)", texto_comercial.lower()):
+            ventana = texto_comercial.lower()[max(0, mt.start() - 80): mt.end() + 80]
             if not re.search(r"\bno\b|non\b|pas\b|não\b|todav[ií]a|a[uú]n no|m[aá]s adelante|no est[aá]", ventana):
                 violaciones.append(f"Menciona '{m['nombre']}' sin negación y no está entre los recomendados.")
                 break
@@ -98,9 +108,9 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
             continue
         if val not in permitidos_num:
             if mrr_legacy is not None and val == int(mrr_legacy):
-                # Precio legacy del cliente: válido solo si se cita como precio actual, no como precio nuevo
+                # Precio legacy del cliente: se puede citar (es un dato suyo) salvo que se ofrezca como precio nuevo
                 cerca = texto_pitch[max(0, mt.start() - 40): mt.end() + 15].lower()
-                if (plan_actual and plan_actual in cerca) or re.search(_RE_LEGACY, cerca):
+                if not re.search(_RE_OFERTA_PRECIO, cerca):
                     continue
             violaciones.append(f"Importe {mt.group(0).strip()} no está entre los precios permitidos {sorted(permitidos_num)}.")
 

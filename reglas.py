@@ -76,7 +76,10 @@ def evaluar(perfil: dict, senales: set, cat: dict | None = None) -> dict:
         mapa = cat["migracion_legacy"]
         if plan_actual not in ("Presence", "Sales Pro", "Ultimate"):
             out["estado"] = "sin_recomendacion"
-            out["avisos"].append(f"Plan actual '{plan_actual}' no es legacy: no hay migración que preparar.")
+            if plan_actual:
+                out["avisos"].append(f"Plan actual '{plan_actual}' no es legacy: no hay migración que preparar.")
+            else:
+                out["avisos"].append("Falta el plan actual. Para una migración tiene que ser Presence, Sales Pro o Ultimate; si es nuevo negocio, cambia el caso.")
             return out
         destino = mapa[plan_actual]["destino"]
         if destino is None:
@@ -117,6 +120,9 @@ def evaluar(perfil: dict, senales: set, cat: dict | None = None) -> dict:
             item["precio"] = "incluido"
             out["modulos_recomendados"].append(item)
             fuente(m["id_regla"], f"{m['nombre']} incluido en {plan}")
+            if senales & set(m.get("senales_contra", [])):
+                # Va incluido en el plan, pero el cliente dice que no lo necesita (p. ej. ya tiene web)
+                out["avisos"].append(f"{m['nombre']}: va incluido en {plan}, pero el cliente dice que no lo necesita. No apoyar el pitch en él.")
             continue
 
         # Elegibilidad (dura)
@@ -131,7 +137,8 @@ def evaluar(perfil: dict, senales: set, cat: dict | None = None) -> dict:
             item["motivo"] = f"Solo en {', '.join(m['planes_permitidos'])}; el plan destino es {plan}"
             out["modulos_no_elegibles"].append(item)
             if senales & set(m["senales_encaje"]):
-                out["avisos"].append(f"{m['nombre']} encaja por las señales pero exige {', '.join(m['planes_permitidos'])}. Posible upsell posterior; no mezclarlo en la migración.")
+                momento = "no mezclarlo en la migración" if caso == "migracion" else "no mezclarlo en esta propuesta"
+                out["avisos"].append(f"{m['nombre']} encaja por las señales pero exige {', '.join(m['planes_permitidos'])}. Posible upsell posterior; {momento}.")
                 fuente(m["id_regla"], f"{m['nombre']} exige {', '.join(m['planes_permitidos'])}")
             continue
         if hab < m["min_habitaciones"]:

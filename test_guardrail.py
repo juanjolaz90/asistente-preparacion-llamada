@@ -51,6 +51,8 @@ PRUEBAS = [
      _salida("Tu plan pasa a Core a 89 €/mes."), True),
     ("caso_04_descuento_20.json", "Core al precio legacy (65 €)",
      _salida("Te dejo Core a 65 €/mes."), True),
+    ("caso_04_descuento_20.json", "Mantiene el precio legacy ('te lo mantengo en 65 €')",
+     _salida("Si firmas hoy te lo mantengo en 65 €/mes."), True),
     ("caso_04_descuento_20.json", "Ofrece el 20 % que pide",
      _salida("Como me pides, te doy un 20% de descuento."), True),
     ("caso_04_descuento_20.json", "Ofrece el 22 % (= subida) como descuento",
@@ -58,7 +60,17 @@ PRUEBAS = [
     ("caso_01_italia_bb.json", "Sin escalado reflejado",
      {**_salida("Tu plan pasa a Core a 79 €/mes."), "escalar_a_persona": []}, True),
 
+    ("caso_04_descuento_20.json", "Suma inventada (Core + Ami = 149 €)",
+     _salida("Core con Ami te sale por 149 €/mes."), True),
+
     # --- falsos positivos ya corregidos: deben pasar
+    ("caso_04_descuento_20.json", "Caso 04: 'pasar de 65 € a 79 € se nota'",
+     _salida("Lo entiendo: pasar de 65 € a 79 € se nota [PLAN-CORE]."), False),
+    ("caso_04_descuento_20.json", "Suma legítima (Core 79 € + Ami 69 € = 148 €)",
+     _salida("Core con Ami te sale por 148 €/mes en total [PLAN-CORE][MOD-AMI]."), False),
+    ("caso_03_francia_restaurante.json", "Caso 03: el cliente pregunta por el POS (objeción)",
+     _salida("Para tu restaurante lo que encaja es Guest Upsell [MOD-GU].", objecion="¿Cuándo vais a lanzar el POS en Francia?",
+             respuesta="Hoy el POS no está disponible en Francia y no tengo fecha [MOD-POS]."), False),
     ("caso_03_francia_restaurante.json", "Caso 03: 'posible' no es 'POS'",
      _salida("Paso tu caso al equipo para que te diga qué es posible de verdad [MOD-POS], y mientras vemos el plan Core [PLAN-CORE]."), False),
     ("caso_04_descuento_20.json", "Caso 04: 'acepta… solo si le dan un 20%'",

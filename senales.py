@@ -42,7 +42,7 @@ PALABRAS = {
         r"petit[- ]d[ée]jeuner", r"caf[eé]\b", r"cocina",
     ],
     "caja_aparte": [
-        r"caja aparte", r"cuadramos (todo )?a mano", r"a mano", r"cassa separata",
+        r"caja aparte", r"cuadr\w+ (todo )?a mano", r"(caja|cobr\w+|tpv|ticket\w*) .{0,25}a mano", r"cassa separata",
         r"caisse s[ée]par[ée]e",
     ],
     "precios_manuales": [

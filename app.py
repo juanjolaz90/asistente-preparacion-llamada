@@ -105,7 +105,8 @@ with st.form("perfil"):
     idioma = c4.selectbox("Idioma del comercial", IDIOMAS, index=_idx(IDIOMAS, pb.get("idioma_comercial", "es")), key=k + "idioma")
 
     c1, c2, c3, c4 = st.columns(4)
-    tipo_caso = c1.radio("Caso", ["migracion", "nuevo_negocio"], index=_idx(["migracion", "nuevo_negocio"], pb.get("caso")),
+    # Perfil en blanco → nuevo negocio por defecto (una migración sin plan legacy no tiene sentido)
+    tipo_caso = c1.radio("Caso", ["migracion", "nuevo_negocio"], index=_idx(["migracion", "nuevo_negocio"], pb.get("caso"), defecto=1),
                          horizontal=True, key=k + "caso", format_func=lambda x: "Migración" if x == "migracion" else "Nuevo negocio")
     plan_actual = c2.selectbox("Plan actual (legacy)", PLANES_LEGACY, index=_idx(PLANES_LEGACY, pb.get("plan_actual")), key=k + "plan")
     segmento = c3.selectbox("Segmento de migración", SEGMENTOS, index=_idx(SEGMENTOS, pb.get("segmento_migracion")), key=k + "seg")

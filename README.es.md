@@ -138,7 +138,7 @@ Diez casos nuevos, probados con palabras clave y con Claude, más la app con un 
 | App: perfil en blanco | Arrancaba en "Migración" sin plan → sin recomendación. Con 0 habitaciones, error controlado | `app.py`: el perfil en blanco arranca en "Nuevo negocio" |
 | App: inyección en la transcripción | Ni Claude ni las reglas ofrecen el 30 %; Claude lo convierte en una objeción y responde que no puede prometer descuentos | — |
 
-Después de los cambios: `test_guardrail.py` 16/16, los 6 casos en OK sin IA y con Claude. Un detalle para la demo: con una ventana estrecha (< ~1000 px) Streamlit oculta la barra lateral; se abre con la flecha de arriba a la izquierda.
+Después de los cambios: `test_guardrail.py` 20/20, los 6 casos en OK sin IA y con Claude. Un detalle para la demo: con una ventana estrecha (< ~1000 px) Streamlit oculta la barra lateral; se abre con la flecha de arriba a la izquierda.
 
 **Cambios desde la primera versión:** extracción de señales con Claude (lista cerrada, con la regex como fallback); guardrail con menos falsos positivos y `test_guardrail.py`; máximo 2 objeciones redactadas para el cliente; quitado `temperature`, que la API actual rechaza; demo en Streamlit.
 

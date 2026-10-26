@@ -94,7 +94,7 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
         # Se revisa lo que dice el comercial, no la objeción: el cliente puede preguntar por cualquier módulo.
         for mt in re.finditer(r"(?<![\w-])" + re.escape(nombre) + r"(?!\w)", texto_comercial.lower()):
             ventana = texto_comercial.lower()[max(0, mt.start() - 80): mt.end() + 80]
-            if not re.search(r"\bno\b|non\b|pas\b|não\b|todav[ií]a|a[uú]n no|m[aá]s adelante|no est[aá]", ventana):
+            if not re.search(r"\bno\b|non\b|pas\b|não\b|todav[ií]a|a[uú]n no|m[aá]s adelante|no est[aá]|\bnot\b|n't\b|unavailable|only (available )?in spain", ventana):
                 violaciones.append(f"Menciona '{m['nombre']}' sin negación y no está entre los recomendados.")
                 break
 
@@ -118,8 +118,8 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
     for mt in re.finditer(r"(\d{1,2})\s?%", texto_comercial):
         pct = int(mt.group(1))
         ventana = texto_comercial[max(0, mt.start() - 60): mt.end() + 60].lower()
-        if ("descuento" in ventana or "sconto" in ventana or "remise" in ventana or "desconto" in ventana) and pct > cat["descuentos"]["max_sin_aprobacion_pct"]:
-            if re.search(r"\bno\b|aprob|escal|responsable", ventana):
+        if any(w in ventana for w in ("descuento", "sconto", "remise", "desconto", "discount")) and pct > cat["descuentos"]["max_sin_aprobacion_pct"]:
+            if re.search(r"\bno\b|aprob|escal|responsable|\bnot\b|n't\b|approv|head of cs", ventana):
                 continue
             antes = texto_comercial[max(0, mt.start() - 30): mt.start()].lower()
             if delta_subida is not None and pct == int(delta_subida) and re.search(_RE_SUBIDA, antes):

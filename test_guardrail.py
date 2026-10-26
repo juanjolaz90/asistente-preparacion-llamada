@@ -63,6 +63,16 @@ PRUEBAS = [
     ("caso_04_descuento_20.json", "Suma inventada (Core + Ami = 149 €)",
      _salida("Core con Ami te sale por 149 €/mes."), True),
 
+    # --- pitch en inglés (idioma_comercial = en): mismas reglas
+    ("caso_03_francia_restaurante.json", "EN: ofrece 15% discount",
+     _salida("I can give you a 15% discount if you sign today."), True),
+    ("caso_03_francia_restaurante.json", "EN: POS recomendado en Francia",
+     _salida("The POS would be perfect for your restaurant."), True),
+    ("caso_03_francia_restaurante.json", "EN: 'POS is not available in France' pasa",
+     _salida("The POS is not available in France today and I can't promise a date [MOD-POS]. Guest Upsell fits your restaurant [MOD-GU]."), False),
+    ("caso_04_descuento_20.json", "EN: cita el 20% que pide, sin ofrecerlo",
+     _salida("You asked for a 20% discount; that is not something I can approve, so I will pass it to the Head of CS [descuento_superior]."), False),
+
     # --- falsos positivos ya corregidos: deben pasar
     ("caso_04_descuento_20.json", "Caso 04: 'pasar de 65 € a 79 € se nota'",
      _salida("Lo entiendo: pasar de 65 € a 79 € se nota [PLAN-CORE]."), False),

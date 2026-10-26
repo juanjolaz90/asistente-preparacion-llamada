@@ -161,17 +161,17 @@ def _senales_claude(transcripcion: str) -> tuple[dict, list[str]]:
     for item in data.get("senales", []):
         s, frase = item.get("senal"), str(item.get("frase", ""))
         if s not in PALABRAS:
-            descartes.append(f"{s}: etiqueta fuera de la lista cerrada")
+            descartes.append(f"{s}: tag outside the closed list")
         elif not frase or _normalizar(frase) not in texto_norm:
-            descartes.append(f"{s}: la cita «{frase}» no aparece literal en la transcripción")
+            descartes.append(f"{s}: the quote «{frase}» is not in the transcript word for word")
         elif s not in encontradas:
             encontradas[s] = frase
     pct, frase_d = data.get("descuento_pedido_pct") or 0, str(data.get("frase_descuento", ""))
     if pct:
         if not (1 <= int(pct) <= 99):
-            descartes.append(f"pide_descuento:{pct}: porcentaje fuera de rango")
+            descartes.append(f"pide_descuento:{pct}: percentage out of range")
         elif not re.search(rf"\b{int(pct)}\s?%", transcripcion):
-            descartes.append(f"pide_descuento:{pct}: el {pct}% no aparece en la transcripción")
+            descartes.append(f"pide_descuento:{pct}: {pct}% does not appear in the transcript")
         else:
             encontradas[f"pide_descuento:{int(pct)}"] = frase_d or f"{pct}%"
     return encontradas, descartes
@@ -209,7 +209,7 @@ def extraer_senales(perfil: dict, transcripcion: str | None, usar_claude: bool =
     """
     info = info if info is not None else {}
     senales = set(perfil.get("senales", []) or [])
-    evidencias = {s: "declarada en el perfil" for s in senales}
+    evidencias = {s: "declared in the profile" for s in senales}
 
     # Señales derivadas de campos estructurados de HubSpot
     if (perfil.get("cuota_ota_pct") or 0) >= 50:
@@ -217,10 +217,10 @@ def extraer_senales(perfil: dict, transcripcion: str | None, usar_claude: bool =
         evidencias["alta_cuota_ota"] = f"cuota_ota_pct={perfil.get('cuota_ota_pct')} (HubSpot)"
     if perfil.get("tipo_alojamiento") in ("apartamentos",):
         senales.add("apartamentos")
-        evidencias["apartamentos"] = "tipo_alojamiento (HubSpot)"
+        evidencias["apartamentos"] = "property type (HubSpot)"
     if perfil.get("tipo_alojamiento") in ("B&B", "casa de huéspedes") and (perfil.get("habitaciones") or 0) <= 12:
         senales.add("gestion_propietario")
-        evidencias["gestion_propietario"] = "tipo y tamaño del alojamiento (supuesto: ≤12 hab. en B&B/casa de huéspedes suele gestionarlo el propietario)"
+        evidencias["gestion_propietario"] = "property type and size (assumption: a B&B/guest house with ≤12 rooms is usually owner-managed)"
 
     if not transcripcion:
         info["modo"] = "sin_transcripcion"
@@ -233,7 +233,7 @@ def extraer_senales(perfil: dict, transcripcion: str | None, usar_claude: bool =
             from redactor import MODELO
             info["modo"] = f"claude:{MODELO}"
         except Exception as e:  # noqa: BLE001 — cualquier fallo (API, SDK, red) debe caer a regex, no romper
-            info["aviso"] = f"Extracción con Claude no disponible, se usa regex: {e}"
+            info["aviso"] = f"Claude extraction not available, using keywords: {e}"
     if encontradas is None:
         encontradas = _senales_regex(transcripcion)
         info["modo"] = "regex"

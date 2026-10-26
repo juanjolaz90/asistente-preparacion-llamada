@@ -1,11 +1,11 @@
 {
-  "nombre": "02 · Fragmento 2 — Hotel Valencia 24 hab., nuevo negocio",
-  "esperado": "Plan Advanced (Revenue Manager exige Advanced y hay señal de precios manuales/estacionalidad; 24 hab. ≥ 8). Website Builder incluido en Advanced. Recomendar POS (España, bar en azotea, caja aparte) y Revenue Manager. Guest Upsell elegible con señal débil (desayuno) — aceptable como recomendado o como 'sin señal'. Sin escalado.",
+  "nombre": "02 · Fragment 2 — Hotel in Valencia, 24 rooms, new business",
+  "esperado": "Plan Advanced (Revenue Manager requires Advanced and there is a manual-pricing/seasonality signal; 24 rooms ≥ 8). Website Builder included in Advanced. Recommend POS (Spain, rooftop bar, separate till) and Revenue Manager. Guest Upsell eligible on a weak signal (breakfast) — acceptable as recommended or as 'no signal'. No escalation.",
   "perfil": {
     "tipo_alojamiento": "hotel",
     "habitaciones": 24,
     "pais": "ES",
-    "idioma_comercial": "es",
+    "idioma_comercial": "en",
     "caso": "nuevo_negocio",
     "plan_actual": null,
     "competidor_pms": "competidor X",

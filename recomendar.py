@@ -72,69 +72,69 @@ def procesar(caso: dict, usar_claude: bool = False) -> dict:
 def imprimir(salida: dict):
     r = salida["reglas"]
     print("=" * 78)
-    print(f"CASO: {salida['caso']}")
+    print(f"CASE: {salida['caso']}")
     print("=" * 78)
     ext = salida.get("senales_extraccion", {})
-    print(f"Señales ({ext.get('modo', '?')}):", ", ".join(salida["senales"]) or "ninguna")
+    print(f"Signals ({ext.get('modo', '?')}):", ", ".join(salida["senales"]) or "none")
     if ext.get("aviso"):
         print("  !", ext["aviso"])
     for d in ext.get("descartes", []):
-        print("  descartada:", d)
+        print("  discarded:", d)
     if r["estado"] != "ok":
-        print(f"\nESTADO: {r['estado'].upper()}")
+        print(f"\nSTATUS: {r['estado'].upper()}")
         for e in r.get("errores", []) + r.get("avisos", []):
             print("  -", e)
         return
     if r["escalar"]:
-        print("\n>>> ESCALAR A PERSONA")
+        print("\n>>> ESCALATE TO A PERSON")
         for e in r["escalar"]:
             print(f"  - [{e['motivo']}] {e['detalle']}")
     print(f"\nPlan: {r['plan_destino']} — {r['precio_plan']['detalle']}")
     if r.get("segmento"):
         s = r["segmento"]
-        print(f"Segmento {s['codigo']} ({s['nombre']}), delta {s['delta_precio_pct']}%. Tono: {s['tono']}")
-    print("\nMódulos recomendados:")
+        print(f"Segment {s['codigo']} ({s['nombre']}), delta {s['delta_precio_pct']}%. Tone: {s['tono']}")
+    print("\nRecommended modules:")
     for m in r["modulos_recomendados"] or []:
         print(f"  ✓ {m['nombre']} ({m['precio']}) — {m['motivo']} [{m['regla']}]")
     if not r["modulos_recomendados"]:
-        print("  (ninguno)")
-    print("Módulos NO elegibles:")
+        print("  (none)")
+    print("NOT eligible modules:")
     for m in r["modulos_no_elegibles"]:
         print(f"  ✗ {m['nombre']} — {m['motivo']} [{m['regla']}]")
     if r["avisos"]:
-        print("Avisos:")
+        print("Warnings:")
         for a in r["avisos"]:
             print("  !", a)
 
     red = salida["redaccion"]
-    print(f"\n--- Redacción (modo: {red.get('_modo')}) ---")
+    print(f"\n--- Writing (mode: {red.get('_modo')}) ---")
     if red.get("escalar_a_persona"):
-        print("ESCALAR:", "; ".join(red["escalar_a_persona"]))
-    print("Resumen:", red.get("resumen_cliente"))
+        print("ESCALATE:", "; ".join(red["escalar_a_persona"]))
+    print("Summary:", red.get("resumen_cliente"))
     print("Pitch:", red.get("pitch"))
     for o in red.get("objeciones", []):
-        print(f"  Objeción: {o.get('objecion')}\n  Respuesta: {o.get('respuesta')}")
+        print(f"  Objection: {o.get('objecion')}\n  Answer: {o.get('respuesta')}")
     if red.get("no_decir"):
-        print("No decir:", "; ".join(red["no_decir"]))
+        print("Do not say:", "; ".join(red["no_decir"]))
     g = salida["guardrail"]
     if g.get("violaciones") or g.get("error_llm"):
-        print("\nGUARDRAIL:", g.get("violaciones") or g.get("error_llm"), "→ se usó plantilla")
-    print("\nFuentes:")
+        print("\nGUARDRAIL:", g.get("violaciones") or g.get("error_llm"), "→ template used")
+    print("\nSources:")
     for f in r["fuentes"]:
         print(f"  [{f['regla']}] {f['afirmacion']}")
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("caso", help="ruta al JSON del caso")
-    ap.add_argument("--claude", action="store_true", help="extraer señales y redactar con Claude")
-    ap.add_argument("--json", action="store_true", help="imprimir JSON completo")
+    ap.add_argument("caso", help="path to the case JSON")
+    ap.add_argument("--claude", action="store_true", help="extract signals and write with Claude")
+    ap.add_argument("--json", action="store_true", help="print the full JSON")
     args = ap.parse_args()
 
     try:
         caso = json.load(open(args.caso, encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as e:
-        print(f"No se pudo leer el caso: {e}", file=sys.stderr)
+        print(f"Could not read the case: {e}", file=sys.stderr)
         sys.exit(1)
 
     salida = procesar(caso, usar_claude=args.claude)

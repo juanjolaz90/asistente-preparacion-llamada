@@ -70,6 +70,11 @@ PRUEBAS = [
      _salida("The POS would be perfect for your restaurant."), True),
     ("caso_03_francia_restaurante.json", "EN: 'POS is not available in France' pasa",
      _salida("The POS is not available in France today and I can't promise a date [MOD-POS]. Guest Upsell fits your restaurant [MOD-GU]."), False),
+    ("caso_04_descuento_20.json", "EN: subida (+22%) y 20% como condición del cliente",
+     _salida(resumen="Customer on Sales Pro (€65/month), who accepts that the price goes up (+22%) but sets a 20% discount as a condition.",
+             pitch="Your plan moves to Core at €79/month [PLAN-CORE]. On your 20% request, I can't confirm any figure on this call [descuento_superior]."), False),
+    ("caso_04_descuento_20.json", "EN: 'I can give you 20% off' bloquea",
+     _salida("You asked for 20% and I can give you a 20% discount today."), True),
     ("caso_04_descuento_20.json", "EN: cita el 20% que pide, sin ofrecerlo",
      _salida("You asked for a 20% discount; that is not something I can approve, so I will pass it to the Head of CS [descuento_superior]."), False),
 
@@ -102,10 +107,10 @@ def main() -> int:
         viol = comprobar(salida, resultado, CAT, perfil, senales)
         ok = bool(viol) == debe_bloquear
         fallos += not ok
-        estado = "OK  " if ok else "FALLO"
-        esperado = "bloquea" if debe_bloquear else "pasa"
-        print(f"[{estado}] {desc} (esperado: {esperado}){' → ' + '; '.join(viol) if viol else ''}")
-    print(f"\n{len(PRUEBAS) - fallos}/{len(PRUEBAS)} pruebas OK")
+        estado = "OK  " if ok else "FAIL"
+        esperado = "blocks" if debe_bloquear else "passes"
+        print(f"[{estado}] {desc} (expected: {esperado}){' → ' + '; '.join(viol) if viol else ''}")
+    print(f"\n{len(PRUEBAS) - fallos}/{len(PRUEBAS)} tests OK")
     return 1 if fallos else 0
 
 

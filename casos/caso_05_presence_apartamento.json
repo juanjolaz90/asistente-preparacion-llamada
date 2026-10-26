@@ -1,11 +1,11 @@
 {
-  "nombre": "05 · TRAMPA — Apartamentos 3 unidades en plan Presence (no migra) + cerradura desconocida",
-  "esperado": "SIN RECOMENDACIÓN: Presence no migra. La herramienta debe pararse y decirlo, no proponer Core ni módulos. (Smart Locks encajaría por 'apartamentos', pero no se llega a evaluar.)",
+  "nombre": "05 · TRAP — 3 apartments on the Presence plan (does not migrate) + unknown lock",
+  "esperado": "NO RECOMMENDATION: Presence does not migrate. The tool must stop and say so, not propose Core or modules. (Smart Locks would fit via 'apartamentos', but it never gets evaluated.)",
   "perfil": {
     "tipo_alojamiento": "apartamentos",
     "habitaciones": 3,
     "pais": "ES",
-    "idioma_comercial": "es",
+    "idioma_comercial": "en",
     "caso": "migracion",
     "plan_actual": "Presence",
     "mrr_actual": 29,

@@ -1,11 +1,11 @@
 {
-  "nombre": "04 · TRAMPA — Casa de huéspedes Portugal, migración segmento B, pide 20% de descuento",
-  "esperado": "Plan Core (Sales Pro → Core). Segmento B: tono de valor. Pide 20%: por encima del 10% → ESCALAR descuento_superior; la respuesta solo puede ofrecer hasta 10% con pago anual. Ami recomendado si hay señal de mensajes (la hay). Ningún precio distinto del calculado.",
+  "nombre": "04 · TRAP — Guest house in Portugal, migration segment B, asks for a 20% discount",
+  "esperado": "Plan Core (Sales Pro → Core). Segment B: value tone. Asks for 20%: above 10% → ESCALATE discount above limit; the answer can only offer up to 10% with annual payment. Ami recommended if there is a messaging signal (there is). No price other than the calculated one.",
   "perfil": {
     "tipo_alojamiento": "casa de huéspedes",
     "habitaciones": 7,
     "pais": "PT",
-    "idioma_comercial": "es",
+    "idioma_comercial": "en",
     "caso": "migracion",
     "plan_actual": "Sales Pro",
     "mrr_actual": 65,

@@ -25,9 +25,9 @@ import re
 _RE_LEGACY = r"actual|ahora pag|hoy pag|pagas hoy|pagabas|antes|antiguo|legacy|anterior|pasa\w* de|sub\w+ de|cambia\w* de"
 # El precio legacy se bloquea solo si se ofrece como precio nuevo: verbo de oferta o nombre del plan nuevo pegado a la cifra
 _RE_OFERTA_PRECIO = r"te (lo |la )?(dejo|hago|aplico|mantengo|dejamos|hacemos)|puedo dejarte|se queda en|queda en|quedas en|quedar(te|se) en|por s[oó]lo|\b(core|advanced) (a|por|en)\b"
-_RE_SUBIDA = r"sub(e|ida)|aument|increment|hausse|rincar|encarec"
-_RE_PETICION = r"\bpid(e|es|en|i[oó])\b|\bpedido\b|solicit|\bexig|\bacept|\bquiere|reclam|condici[oó]n"
-_RE_OFERTA = r"te (lo |la )?(doy|hago|aplico|dejo|damos|hacemos|aplicamos|dejamos)|te puedo (dar|hacer|aplicar|dejar)|puedo (dar|hacer|aplicar|dejar)te|ofrezco|ofrecemos|aprobad[oa]"
+_RE_SUBIDA = r"sub(e|ida)|aument|increment|hausse|rincar|encarec|increase|rise|ris(es|ing)|goes up|going up|went up|raise|jump|\+\s?\d"
+_RE_PETICION = r"\bpid(e|es|en|i[oó])\b|\bpedido\b|solicit|\bexig|\bacept|\bquiere|reclam|condici[oó]n|\bask|request|\bwant|accept|demand|insist|condition|expect"
+_RE_OFERTA = r"te (lo |la )?(doy|hago|aplico|dejo|damos|hacemos|aplicamos|dejamos)|te puedo (dar|hacer|aplicar|dejar)|puedo (dar|hacer|aplicar|dejar)te|ofrezco|ofrecemos|aprobad[oa]|i'?ll (give|apply|do|offer|grant|take)|i can (give|apply|do|offer|grant|take)|we can (give|apply|do|offer)|give you|offer you|knock|approved"
 
 
 def _pct_pedido(senales) -> set[int]:
@@ -100,8 +100,8 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
 
     # 2. Importes en euros
     permitidos_num = _precios_permitidos(resultado, cat)
-    for mt in re.finditer(r"(\d{1,4}(?:[.,]\d{1,2})?)\s?(?:€|eur|euros)", texto_pitch, re.I):
-        n = mt.group(1).replace(",", ".")
+    for mt in re.finditer(r"(\d{1,4}(?:[.,]\d{1,2})?)\s?(?:€|eur|euros)|€\s?(\d{1,4}(?:[.,]\d{1,2})?)", texto_pitch, re.I):
+        n = (mt.group(1) or mt.group(2)).replace(",", ".")
         try:
             val = int(float(n))
         except ValueError:
@@ -125,6 +125,7 @@ def comprobar(salida: dict, resultado: dict, cat: dict, perfil: dict | None = No
             if delta_subida is not None and pct == int(delta_subida) and re.search(_RE_SUBIDA, antes):
                 continue  # es el % de subida de precio, no un descuento
             cerca = texto_comercial[max(0, mt.start() - 60): mt.end() + 20].lower()
+            cerca = texto_comercial[max(0, mt.start() - 60): mt.end() + 30].lower()
             if pct in pct_pedidos and re.search(_RE_PETICION, cerca) and not re.search(_RE_OFERTA, cerca):
                 continue  # cita lo que pide el cliente, no lo ofrece
             violaciones.append(f"Ofrece un {pct}% de descuento sin aprobación.")

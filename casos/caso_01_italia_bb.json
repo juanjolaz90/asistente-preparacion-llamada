@@ -1,11 +1,11 @@
 {
-  "nombre": "01 · Fragmento 1 — B&B Toscana, migración segmento C (+38%)",
-  "esperado": "Plan Core (Ultimate → Core + WB). WB no apoyar porque ya tiene web. Recomendar Ami (alto volumen de mensajes, multilingüe, early access con plazas). ESCALAR: segmento C + pide precio antiguo + menciona herramientas de Booking. No prometer nada sobre precio.",
+  "nombre": "01 · Fragment 1 — B&B in Tuscany, migration segment C (+38%)",
+  "esperado": "Plan Core (Ultimate → Core + WB). Do not lean on WB: already has a website. Recommend Ami (high message volume, multilingual, early access with places left). ESCALATE: segment C + asks for the old price + mentions Booking's tools. Promise nothing about price.",
   "perfil": {
     "tipo_alojamiento": "B&B",
     "habitaciones": 9,
     "pais": "IT",
-    "idioma_comercial": "es",
+    "idioma_comercial": "en",
     "caso": "migracion",
     "plan_actual": "Ultimate",
     "mrr_actual": 72,

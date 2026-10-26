@@ -1,6 +1,6 @@
 # Prototype — Call-prep assistant (Amenitiz)
 
-*Versión en español: [README.es.md](README.es.md). Code identifiers, test cases and the tool's own output are in Spanish, which is the language the sales team works in.*
+*Versión en español: [README.es.md](README.es.md). The app screen, the rule texts and the template are in English (the session is in English). Code identifiers and signal tags (`alto_volumen_mensajes`, `pide_descuento:20`…) stay in Spanish, and transcripts can be in ES/FR/IT/PT/EN.*
 
 A working slice of the main interaction: **hotel profile (+ call fragment) → what to propose, how to say it, what not to promise, and the rule behind every statement.**
 
@@ -110,7 +110,7 @@ These are the HubSpot fields listed in the data sheet. In production an n8n work
 
 ## Evaluation
 
-`python run_eval.py` (no AI) and `python run_eval.py --claude` generate `salidas/resumen.md` with this case-by-case comparison. The table below is the hand review of the latest run: two consecutive passes with Claude (`claude-sonnet-5-5`), both with all 6 cases OK, plus the run without AI, also 6 OK. `python test_guardrail.py`: 20/20.
+`python run_eval.py` (no AI) and `python run_eval.py --claude` generate `salidas/resumen.md` with this case-by-case comparison. The table below is the hand review of the latest run: two consecutive passes with Claude (`claude-sonnet-5-5`), both with all 6 cases OK, plus the run without AI, also 6 OK. `python test_guardrail.py`: 22/22.
 
 | Case | What it tests | Rules result (same with and without AI) | With Claude | What I would fix / status |
 |---|---|---|---|---|
@@ -140,7 +140,7 @@ Ten new cases, tested with keywords and with Claude, plus the app with a blank p
 | App: blank profile | Started on "Migration" with no plan → no recommendation. With 0 rooms, controlled error | `app.py`: the blank profile starts on "New business" |
 | App: injection in the transcript | Neither Claude nor the rules offer the 30 %; Claude turns it into an objection and answers that it cannot promise discounts | — |
 
-After the changes: `test_guardrail.py` 20/20, all 6 cases OK with and without Claude. One detail for the demo: in a narrow window (< ~1000 px) Streamlit hides the sidebar; it opens with the arrow at the top left.
+After the changes: `test_guardrail.py` 22/22, all 6 cases OK with and without Claude. One detail for the demo: in a narrow window (< ~1000 px) Streamlit hides the sidebar; it opens with the arrow at the top left.
 
 **Changes since the first version:** signal extraction with Claude (closed list, with the regex as fallback); guardrail with fewer false positives and `test_guardrail.py`; a maximum of 2 objections written for the customer; `temperature` removed, since the current API rejects it; Streamlit demo.
 

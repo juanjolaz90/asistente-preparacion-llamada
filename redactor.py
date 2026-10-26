@@ -77,36 +77,36 @@ def redactar_plantilla(perfil: dict, resultado: dict) -> dict:
     plan = r["plan_destino"]
     precio = r["precio_plan"]["detalle"]
 
-    resumen = f"{perfil.get('tipo_alojamiento','Alojamiento')} de {perfil.get('habitaciones')} hab. en {perfil.get('pais')}."
+    resumen = f"{perfil.get('tipo_alojamiento','Property')} with {perfil.get('habitaciones')} rooms in {perfil.get('pais')}."
     if seg:
-        resumen += f" Migración, segmento {seg['codigo']} ({seg['nombre']}), subida de {seg.get('delta_precio_pct')}%."
+        resumen += f" Migration, segment {seg['codigo']} ({seg['nombre']}), price increase of {seg.get('delta_precio_pct')}%."
 
     frases = []
     if r["caso"] == "migracion":
-        frases.append(f"Tu plan pasa a {plan} [{'PLAN-ADV' if plan=='Advanced' else 'PLAN-CORE'}]; el precio queda en {precio}.")
+        frases.append(f"Your plan moves to {plan} [{'PLAN-ADV' if plan=='Advanced' else 'PLAN-CORE'}]; the price is {precio}.")
     else:
-        frases.append(f"Para un alojamiento como el tuyo el plan que encaja es {plan}: {precio} [{'PLAN-ADV' if plan=='Advanced' else 'PLAN-CORE'}].")
+        frases.append(f"For a property like yours, the plan that fits is {plan}: {precio} [{'PLAN-ADV' if plan=='Advanced' else 'PLAN-CORE'}].")
     for m in recs:
         frases.append(f"{m['nombre']} ({m['precio']}): {m['motivo']} [{m['regla']}].")
     motivos_esc = {e["motivo"] for e in r["escalar"]}
     if motivos_esc & {"descuento_superior", "excepcion_precio", "segmento_c", "riesgo_churn"}:
-        frases.append("Sobre precio y condiciones, hoy no puedo cerrar nada: lo revisa el responsable de CS y te llamamos con una respuesta [ESC].")
+        frases.append("On price and conditions I can't close anything today: the Head of CS reviews it and we call you back with an answer [ESC].")
     if "modulo_no_disponible" in motivos_esc:
-        no_disp = [m["nombre"] for m in r["modulos_no_elegibles"] if "No disponible en" in m["motivo"]]
+        no_disp = [m["nombre"] for m in r["modulos_no_elegibles"] if "Not available in" in m["motivo"]]
         if no_disp:
-            frases.append(f"Si pregunta por {', '.join(no_disp)}: hoy no está disponible en {perfil.get('pais')} y no tenemos fecha que podamos prometer [{[m['regla'] for m in r['modulos_no_elegibles'] if m['nombre'] in no_disp][0]}].")
+            frases.append(f"If they ask about {', '.join(no_disp)}: it is not available in {perfil.get('pais')} today and we have no date we can promise [{[m['regla'] for m in r['modulos_no_elegibles'] if m['nombre'] in no_disp][0]}].")
 
     objeciones = []
     if "pide_precio_antiguo" in str(perfil.get("senales", "")) or any(e["motivo"] == "excepcion_precio" for e in r["escalar"]):
-        objeciones.append({"objecion": "¿No me puedes dejar con el precio antiguo?", "respuesta": "No está en mi mano decidirlo. Lo paso al responsable de CS con tu caso y te contesto en [consultar con CS] días. Mientras, te cuento lo que ganas con el cambio [ESC]."})
+        objeciones.append({"objecion": "Can't you keep me on the old price?", "respuesta": "That is not my decision to make. I'll pass your case to the Head of CS and get back to you in [check with CS] days. Meanwhile, let me tell you what you gain with the change [ESC]."})
     if any(e["motivo"] == "descuento_superior" for e in r["escalar"]):
-        objeciones.append({"objecion": "Quiero un descuento mayor.", "respuesta": "Puedo aplicar hasta un 10% si pasas a pago anual [DESC-10]. Más que eso tiene que aprobarlo CS; te lo escalo hoy."})
+        objeciones.append({"objecion": "I want a bigger discount.", "respuesta": "I can apply up to 10% if you move to annual payment [DESC-10]. Anything above that has to be approved by CS; I'll escalate it today."})
     if not objeciones:
-        objeciones.append({"objecion": "No necesito más funciones, solo pago más.", "respuesta": "Entiendo. De lo nuevo, lo que te afecta de verdad es " + (recs[0]["nombre"] if recs else "el plan base") + "; el resto no hace falta que lo actives [" + (recs[0]["regla"] if recs else "PLAN-CORE") + "]."})
+        objeciones.append({"objecion": "I don't need more features, I just pay more.", "respuesta": "I understand. Of what's new, what really matters to you is " + (recs[0]["nombre"] if recs else "the base plan") + "; you don't need to switch on the rest [" + (recs[0]["regla"] if recs else "PLAN-CORE") + "]."})
 
-    no_decir = ["No prometer módulos de la lista de 'no elegibles'."]
+    no_decir = ["Do not promise modules from the 'not eligible' list."]
     if esc:
-        no_decir.append("No confirmar ningún precio distinto del calculado ni fechas de disponibilidad.")
+        no_decir.append("Do not confirm any price other than the calculated one, or any availability dates.")
 
     return {
         "escalar_a_persona": esc,
